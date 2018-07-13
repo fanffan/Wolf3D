@@ -1,25 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_draw.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/12 18:00:28 by fmaury            #+#    #+#             */
-/*   Updated: 2018/07/13 13:34:14 by fmaury           ###   ########.fr       */
+/*   Created: 2018/07/13 17:29:17 by fmaury            #+#    #+#             */
+/*   Updated: 2018/07/13 17:29:45 by fmaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wolf.h"
-
-int main(int ac, char **av)
+void    ft_draw(t_wolf *env)
 {
-    t_wolf env;
-
-    ft_bzero(&env, sizeof(t_wolf));
-    if (ac == 2 && (env.fd = open(av[1], O_RDONLY)) > 0 && ft_parse(&env))
-    {
-        ft_wolf(&env);
-    }
-    return (0);
+    ft_find_hori(env);
 }
