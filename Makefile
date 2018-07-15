@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+         #
+#    By: fanf <fanf@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/04 11:00:31 by fmaury            #+#    #+#              #
-#    Updated: 2018/07/13 15:40:47 by fmaury           ###   ########.fr        #
+#    Updated: 2018/07/14 17:26:14 by fanf             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,10 @@ LIBNUX_FLAG = -L/usr/X11/lib -lXext -lX11 ./minilibx_linux/libmlx.a
 SRC				=	main.c \
 					ft_parse.c \
 					ft_wolf.c \
+					ft_find_hori.c \
+					ft_find_vert.c \
+					ft_dist.c \
+					ft_tools.c \
 					ft_draw.c
 
 OBJ				= $(SRC:.c=.o)
@@ -40,10 +44,10 @@ all : $(NAME)
 $(NAME): $(OBJ) $(INC)
 	@$(NEWLINE)
 	@echo "Compilation de la libft..."
-	@MAKE -C libft/
+	#@MAKE -C libft/
 	@$(NEWLINE)
 	@echo "Compilation du wolf3d..."
-	@$(COMPILER) $(CC_FLAGS) $(OBJ) $(LIB_FLAG) ./libft/libft.a -o $(NAME)
+	@$(COMPILER) $(CC_FLAGS) $(OBJ) $(LIBNUX_FLAG) -lm ./libft/libft.a -o $(NAME)
 	@$(NEWLINE)
 	@echo "wolf3d cree !"
 	$(NEWLINE)
