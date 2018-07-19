@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_parse.c                                         :+:      :+:    :+:   */
+/*   parse.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fanf <fanf@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "wolf.h"
 
-void    ft_find_player(char *line, t_wolf *env)
+void    find_player(char *line, t_wolf *env)
 {
     int i;
 
@@ -23,13 +23,13 @@ void    ft_find_player(char *line, t_wolf *env)
         {
             env->playerx = ((i - 1) * CUBE) + (CUBE / 2);
             env->playery = ((env->mapy - 1) * CUBE) + (CUBE / 2);
-            printf ("x:%d y:%d cx:%d cy:%d\n", i, env->mapy, env->playerx, env->playery);
+            ft_printf ("x:%d y:%d cx:%d cy:%d\n", i, env->mapy, env->playerx, env->playery);
         }
         i++;
     }
 }
 
-int     ft_parse(t_wolf *env)
+int     parse(t_wolf *env)
 {
     int ret;
     char *line;
@@ -37,11 +37,18 @@ int     ft_parse(t_wolf *env)
     while ((ret = get_next_line(env->fd, &line)) > 0)
     {
         env->map = ft_strtab(env->map, line);
-        env->mapx = ft_strlen(line);
-        ft_find_player(line, env);
+        env->mapx = (int)ft_strlen(line);
+        find_player(line, env);
         env->mapy++;
     }
-    env->ray = 60;
+    int i;
+    i = 0;
+    while (env->map[i])
+    {
+        printf("%s\n", env->map[i]);
+        i++;
+    }
+    env->ray = 180;
     if (ret == -1)
         return (0);
     return (1);

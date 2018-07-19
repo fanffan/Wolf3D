@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fanf <fanf@student.42.fr>                  +#+  +:+       +#+         #
+#    By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/04 11:00:31 by fmaury            #+#    #+#              #
-#    Updated: 2018/07/14 17:26:14 by fanf             ###   ########.fr        #
+#    Updated: 2018/07/19 17:09:25 by fmaury           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME			= wolf3d
 
 COMPILER		= gcc
 
-CC_FLAGS		= -Wall -Werror -Wextra -g
+CC_FLAGS		= -Wall -Werror -Wextra -Wconversion -g
 
 INC				= ./includes/
 
@@ -44,10 +44,10 @@ all : $(NAME)
 $(NAME): $(OBJ) $(INC)
 	@$(NEWLINE)
 	@echo "Compilation de la libft..."
-	#@MAKE -C libft/
+	@MAKE -C libft/
 	@$(NEWLINE)
 	@echo "Compilation du wolf3d..."
-	@$(COMPILER) $(CC_FLAGS) $(OBJ) $(LIBNUX_FLAG) -lm ./libft/libft.a -o $(NAME)
+	@$(COMPILER) $(CC_FLAGS) $(OBJ) $(LIB_FLAG) -lm ./libft/libft.a -o $(NAME)
 	@$(NEWLINE)
 	@echo "wolf3d cree !"
 	$(NEWLINE)

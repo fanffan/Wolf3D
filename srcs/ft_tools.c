@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tools.c                                         :+:      :+:    :+:   */
+/*   tools.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fanf <fanf@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "wolf.h"
 
-double     deg_to_rad(int deg)
+double     deg_to_rad(double deg)
 {
     return (M_PI * deg / 180);
 }
@@ -21,3 +21,4 @@ double     rad_to_deg(double rad)
 {
     return (rad * 180 / M_PI);
 }
+

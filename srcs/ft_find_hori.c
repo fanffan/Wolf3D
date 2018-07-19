@@ -1,49 +1,52 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_find_hori.c                                     :+:      :+:    :+:   */
+/*   find_hori.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fanf <fanf@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/13 17:28:48 by fmaury            #+#    #+#             */
-/*   Updated: 2018/07/15 12:40:13 by fanf             ###   ########.fr       */
+/*   Updated: 2018/07/19 13:24:13 by fmaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 
-void    ft_find_FIH(t_wolf *env)
+void    find_fih(t_wolf *env)
 {
-    if (env->ray >= 0 && env->ray <= 180)
+    if (env->angle_cast > 0 && env->angle_cast < 180)
     {
-        env->ihy = (int)(env->playery / CUBE) * CUBE - 1;
+        env->ihy = (double)(env->playery / CUBE) * CUBE - 1;
         env->ya = -CUBE;
     }
     else
     {
-        env->ihy = (int)(env->playery / CUBE) * CUBE + CUBE;
+        env->ihy = (double)(env->playery / CUBE) * CUBE + CUBE;
         env->ya = CUBE;
     }
-    env->ihx = env->playerx + (env->playery - env->ihy) / tan(deg_to_rad(env->angle_cast));
-    printf("PREM ihx:%d ihy:%d tanangl:%f\n", env->ihx, env->ihy, tan(deg_to_rad(env->angle_cast)));
+    env->ihx = (double)env->playerx + ((double)env->playery - env->ihy) / tan(deg_to_rad(env->angle_cast));
+    printf("PREM ihx:%f ihy:%f tanangl:%f\n", env->ihx, env->ihy, tan(deg_to_rad(env->angle_cast)));
 }
 
-int    ft_find_hori(t_wolf *env)
+int    find_hori(t_wolf *env)
 {
 
-    ft_find_FIH(env);
+    find_fih(env);
     env->xa = CUBE / tan(deg_to_rad(env->angle_cast));
-    printf("XA:%d\n",env->xa);
-    while (env->ihx / CUBE >= 0 && env->ihy / CUBE >= 0 &&
-    env->ihx / CUBE < env->mapx && env->ihy / CUBE < env->mapy)
+    if (env->xa >= 64)
+        env->xa = 63.5;
+    printf("XA:%f\n",env->xa);
+    printf("FIRST MUR HORI EN X:%f Y:%f\n", env->ihx / CUBE, env->ihy / CUBE);
+    while ((int)env->ihx / CUBE >= 0 && (int)env->ihy / CUBE >= 0 &&
+    (int)env->ihx / CUBE < env->mapx && env->ihy / CUBE < env->mapy)
     {
-        if (env->map[env->ihy / 64][env->ihx / 64] == '1')
+        if (env->map[(int)env->ihy / CUBE][(int)env->ihx / CUBE] == '1')
         {
-            ft_printf("MUR HORI EN X:%d Y:%d\n", env->ihx / CUBE, env->ihy / CUBE);
-            printf("LASTihx:%d ihy:%d\n", env->ihx, env->ihy);
+            printf("MUR HORI EN X:%d Y:%d\n", (int)env->ihx / CUBE, (int)env->ihy / CUBE);
+            printf("LASTihx:%f ihy:%f\n", env->ihx, env->ihy);
             return (1);
         }
-        ft_printf("PAS MUR HORI EN X:%d Y:%d\n", env->ihx / CUBE, env->ihy / CUBE);
+       printf("PAS MUR HORI EN X:%f Y:%f\n", env->ihx, env->ihy);
         env->ihx = env->ihx + env->xa;
         env->ihy = env->ihy + env->ya;
     }
