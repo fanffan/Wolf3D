@@ -32,7 +32,8 @@ void            fill(t_wolf *env)
 }
  int			keyboard(int keycode, t_wolf *env)
  {
-     (void)env;
+     double newposx;
+     double newposy;
      printf("%d\n", keycode);
      if (keycode == 124)
      {
@@ -55,32 +56,33 @@ void            fill(t_wolf *env)
      }
      if (keycode == 125)
      {
-        if (env->playerx + (int)(5 * cos(deg_to_rad(env->ray))) > 0
-         && env->playery + (int)(5 * sin(deg_to_rad(env->ray))) > 0
-         && (env->playerx + (int)(5 * cos(deg_to_rad(env->ray)))) / 64 >= 0
-         && (env->playery + (int)(5 * sin(deg_to_rad(env->ray)))) / 64 >= 0
-         && (env->playerx + (int)(5 * cos(deg_to_rad(env->ray)))) / 64 < env->mapx
-         && (env->playery + (int)(5 * sin(deg_to_rad(env->ray)))) / 64 < env->mapy)
+         newposx = env->playerx + (int)(10 * cos(deg_to_rad(env->ray)));
+         newposy = env->playery + (int)(10 * sin(deg_to_rad(env->ray)));
+        if ( newposx > 0 && newposy > 0
+         && newposx / 64 >= 0
+         && newposy / 64 >= 0
+         && newposx / 64 < env->mapx
+         && newposy / 64 < env->mapy)
         {
             fill(env);
-            env->playerx += (int)(5 * cos(deg_to_rad(env->ray)));
-            env->playery += (int)(5 * sin(deg_to_rad(env->ray)));
+            env->playerx = (int)newposx;
+            env->playery = (int)newposy;
             draw(env);
         }
      }
      if (keycode == 126)
      {
-         if (env->playerx + (int)(5 * cos(deg_to_rad(env->ray))) > 0
-         && env->playery + (int)(5 * sin(deg_to_rad(env->ray))) > 0
-         && (env->playerx + (int)(5 * cos(deg_to_rad(env->ray)))) / 64 >= 0
-         && (env->playery + (int)(5 * sin(deg_to_rad(env->ray)))) / 64 >= 0
-         && (env->playerx + (int)(5 * cos(deg_to_rad(env->ray)))) / 64 < env->mapx
-         && (env->playery + (int)(5 * sin(deg_to_rad(env->ray)))) / 64 < env->mapy)
+        newposx = env->playerx - (int)(10 * cos(deg_to_rad(env->ray)));
+         newposy = env->playery - (int)(10 * sin(deg_to_rad(env->ray)));
+        if ( newposx > 0 && newposy > 0
+         && newposx / 64 >= 0
+         && newposy / 64 >= 0
+         && newposx / 64 < env->mapx
+         && newposy / 64 < env->mapy)
         {
             fill(env);
-            // mlx_clear_window(env->mlx, env->win);
-            env->playerx -= (int)(5 * cos(deg_to_rad(env->ray)));
-            env->playery -= (int)(5 * sin(deg_to_rad(env->ray)));
+            env->playerx = (int)newposx;
+            env->playery = (int)newposy;
             draw(env);
         }
      }
@@ -114,7 +116,7 @@ void    wolf(t_wolf *env)
     env->win = mlx_new_window(env->mlx, WIDTH, HEIGHT, "Wolf3d");
     env->img = mlx_new_image(env->mlx, WIDTH, HEIGHT);
     env->data = (int*)mlx_get_data_addr(env->img, &bpp, &size_l, &endian);
-    //draw(env);
+    draw(env);
     mlx_key_hook(env->win, keyboard, env);
 	mlx_hook(env->win, 17, (1L << 17), cross, env);
 	mlx_loop(env->mlx);

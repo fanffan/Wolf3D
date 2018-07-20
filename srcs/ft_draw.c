@@ -28,11 +28,11 @@ void    ray(t_wolf *env, int hwall, int j, int color)
     }
 }
 
-void    wall(t_wolf *env, unsigned dist, int i, int color)
+void    wall(t_wolf *env, double dist, int i, int color)
 {
     int hwall;
 
-    hwall = CUBE * DISTPLAY / dist;
+    hwall = (int)(CUBE * DISTPLAY / (dist * cos((double)(deg_to_rad(i * -0.1 + 30)))));
     ft_printf("wall: %d dist:%d\n", hwall, dist);
     ray(env, hwall, i, color);
 
@@ -40,8 +40,8 @@ void    wall(t_wolf *env, unsigned dist, int i, int color)
 
 void    draw(t_wolf *env)
 {
-    unsigned int disth;
-    unsigned int distv;
+    double disth;
+    double distv;
     double angle_pad;
     int i;
 
@@ -51,13 +51,13 @@ void    draw(t_wolf *env)
     ft_printf("pad:%f ray:%f cast:%f\n", angle_pad, env->ray, env->angle_cast);
     while (i < WIDTH)
     {
-        disth = (unsigned int)-1;
-        distv = (unsigned int)-1;
+        disth = 1000000000000000;
+        distv = 1000000000000000;
         if (find_hori(env))
-            disth = (unsigned int)dist(env, env->ihx, env->ihy);
+            disth = dist(env, env->ihx, env->ihy);
         if (find_vert(env))
-            distv = (unsigned int)dist(env, env->ivx, env->ivy);
-        printf("disth:%d distv:%d\n", disth, distv);
+            distv = dist(env, env->ivx, env->ivy);
+        printf("disth:%f distv:%f\n", disth, distv);
         if (disth < distv)
             wall(env, disth, i, 0xFF0000);
         else

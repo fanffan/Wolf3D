@@ -14,17 +14,18 @@
 
 double     dist(t_wolf *env, double x, double y)
 {
-     double x1;
-     double px1;
-     double y1;
-     double py1;
-     double sq;
+    //  double x1;
+    //  double px1;
+    //  double y1;
+    //  double py1;
+    //  double sq;
 
-     x1 = env->playerx - x;
-     px1 = pow(x1, 2);
-     y1 = env->playery - y;
-     py1 = pow(x1, 2);
-     sq = sqrt(pow(env->playerx - x, 2) + pow(env->playery - y, 2));
-     printf("%f %f %f %f %f", x1, px1, y1, py1, sq);
-    return (sqrt(pow(env->playerx - x, 2) + pow(env->playery - y, 2)));
+    //  x1 = env->playerx - x;
+    //  px1 = pow(x1, 2);
+    //  y1 = env->playery - y;
+    //  py1 = pow(x1, 2);
+    //  sq = sqrt(pow(env->playerx - x, 2) + pow(env->playery - y, 2));
+    //  printf("%f %f %f %f %f", x1, px1, y1, py1, sq);
+    return (sqrt(pow((double)env->playerx - x, 2) +
+        pow((double)env->playery - y, 2)));
 }

@@ -21,13 +21,32 @@
 
 #include "../libft/srclib/libft.h"
 #include <fcntl.h>
-# include <mlx.h>
+# include "../minilibx_macos/mlx.h"
 #include <math.h>
 #include <stdio.h>
 /*
 ** Mlx.h pour linux
 ** # include "../minilibx_linux/mlx.h"
 */
+
+typedef struct      s_map
+{
+    char            **map;
+    int             xmax;
+    int             ymax;
+}                   t_map;
+
+typedef struct      s_player
+{
+    double          ray;
+    double          angle_cast;
+    int             playerx;
+    int             playery;
+    double          ihx;
+    double          ihy;
+    double          ivx;
+    double          ivy;
+}                   t_player;
 
 typedef struct      s_wolf
 {
@@ -47,8 +66,6 @@ typedef struct      s_wolf
     double             ihy;
     double             ivx;
     double             ivy;
-    double             ya;
-    double             xa;
 }                   t_wolf;
 
 int     parse(t_wolf *env);
