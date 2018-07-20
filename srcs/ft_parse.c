@@ -21,8 +21,8 @@ void    find_player(char *line, t_wolf *env)
     {
         if (line[i] == 'x')
         {
-            env->playerx = ((i - 1) * CUBE) + (CUBE / 2);
-            env->playery = ((env->mapy - 1) * CUBE) + (CUBE / 2);
+            env->playerx = (int)((i - 1) * CUBE) + (int)(CUBE / 2);
+            env->playery = (int)((env->mapy - 1) * CUBE) + (int)(CUBE / 2);
             ft_printf ("x:%d y:%d cx:%d cy:%d\n", i, env->mapy, env->playerx, env->playery);
         }
         i++;

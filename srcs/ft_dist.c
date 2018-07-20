@@ -26,5 +26,5 @@ double     dist(t_wolf *env, double x, double y)
      py1 = pow(x1, 2);
      sq = sqrt(pow(env->playerx - x, 2) + pow(env->playery - y, 2));
      printf("%f %f %f %f %f", x1, px1, y1, py1, sq);
-    return (sqrt(pow((double)env->playerx - x, 2) + pow((double)env->playery - y, 2)));
+    return (sqrt(pow(env->playerx - x, 2) + pow(env->playery - y, 2)));
 }

@@ -53,21 +53,36 @@ void            fill(t_wolf *env)
          env->ray -= 5;
          draw(env);
      }
-     if (keycode == 126)
-     {
-         fill(env);
-        // mlx_clear_window(env->mlx, env->win);
-        env->playerx += 32 * (int)cos(deg_to_rad((int)env->ray));
-         env->playery += 32 * (int)sin(deg_to_rad((int)env->ray));
-         draw(env);
-     }
      if (keycode == 125)
      {
-         fill(env);
-        // mlx_clear_window(env->mlx, env->win);
-        env->playerx -= 32 * (int)cos(deg_to_rad((int)env->ray));
-         env->playery -= 32 * (int)sin(deg_to_rad((int)env->ray));
-         draw(env);
+        if (env->playerx + (int)(5 * cos(deg_to_rad(env->ray))) > 0
+         && env->playery + (int)(5 * sin(deg_to_rad(env->ray))) > 0
+         && (env->playerx + (int)(5 * cos(deg_to_rad(env->ray)))) / 64 >= 0
+         && (env->playery + (int)(5 * sin(deg_to_rad(env->ray)))) / 64 >= 0
+         && (env->playerx + (int)(5 * cos(deg_to_rad(env->ray)))) / 64 < env->mapx
+         && (env->playery + (int)(5 * sin(deg_to_rad(env->ray)))) / 64 < env->mapy)
+        {
+            fill(env);
+            env->playerx += (int)(5 * cos(deg_to_rad(env->ray)));
+            env->playery += (int)(5 * sin(deg_to_rad(env->ray)));
+            draw(env);
+        }
+     }
+     if (keycode == 126)
+     {
+         if (env->playerx + (int)(5 * cos(deg_to_rad(env->ray))) > 0
+         && env->playery + (int)(5 * sin(deg_to_rad(env->ray))) > 0
+         && (env->playerx + (int)(5 * cos(deg_to_rad(env->ray)))) / 64 >= 0
+         && (env->playery + (int)(5 * sin(deg_to_rad(env->ray)))) / 64 >= 0
+         && (env->playerx + (int)(5 * cos(deg_to_rad(env->ray)))) / 64 < env->mapx
+         && (env->playery + (int)(5 * sin(deg_to_rad(env->ray)))) / 64 < env->mapy)
+        {
+            fill(env);
+            // mlx_clear_window(env->mlx, env->win);
+            env->playerx -= (int)(5 * cos(deg_to_rad(env->ray)));
+            env->playery -= (int)(5 * sin(deg_to_rad(env->ray)));
+            draw(env);
+        }
      }
  	if (keycode == 53)
  		cross();
@@ -99,7 +114,7 @@ void    wolf(t_wolf *env)
     env->win = mlx_new_window(env->mlx, WIDTH, HEIGHT, "Wolf3d");
     env->img = mlx_new_image(env->mlx, WIDTH, HEIGHT);
     env->data = (int*)mlx_get_data_addr(env->img, &bpp, &size_l, &endian);
-    draw(env);
+    //draw(env);
     mlx_key_hook(env->win, keyboard, env);
 	mlx_hook(env->win, 17, (1L << 17), cross, env);
 	mlx_loop(env->mlx);

@@ -6,7 +6,7 @@
 #    By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/04 11:00:31 by fmaury            #+#    #+#              #
-#    Updated: 2018/07/19 17:09:25 by fmaury           ###   ########.fr        #
+#    Updated: 2018/07/20 14:27:32 by fmaury           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,6 @@ NAME			= wolf3d
 COMPILER		= gcc
 
 CC_FLAGS		= -Wall -Werror -Wextra -Wconversion -g
-
 INC				= ./includes/
 
 SRC_DIR			= ./srcs
