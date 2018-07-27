@@ -27,6 +27,12 @@ void    find_player(char *line, t_wolf *env)
         }
         i++;
     }
+        env->playerx = 3;
+    env->playery = 3;
+        env->planex = 0;
+    env->planey = 0.66;
+    env->dirx = -1;
+    env->diry = 0.66;
 }
 
 int     parse(t_wolf *env)

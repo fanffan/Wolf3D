@@ -6,7 +6,7 @@
 /*   By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/12 16:55:22 by fmaury            #+#    #+#             */
-/*   Updated: 2018/07/19 17:24:19 by fmaury           ###   ########.fr       */
+/*   Updated: 2018/07/27 17:32:22 by fmaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,11 @@ typedef struct      s_wolf
     double          angle_cast;
     int             playerx;
     int             playery;
+    double          planex;
+    double          planey;
+    double          dirx;
+    double          diry;
+    int             movespeed;
     double             ihx;
     double             ihy;
     double             ivx;
