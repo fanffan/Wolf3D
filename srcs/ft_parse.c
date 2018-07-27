@@ -23,16 +23,19 @@ void    find_player(char *line, t_wolf *env)
         {
             env->playerx = (int)((i - 1) * CUBE) + (int)(CUBE / 2);
             env->playery = (int)((env->mapy - 1) * CUBE) + (int)(CUBE / 2);
-            ft_printf ("x:%d y:%d cx:%d cy:%d\n", i, env->mapy, env->playerx, env->playery);
+            //ft_printf ("x:%d y:%d cx:%d cy:%d\n", i, env->mapy, env->playerx, env->playery);
         }
         i++;
     }
-        env->playerx = 3;
-    env->playery = 3;
+        env->playerx = 5;
+    env->playery = 5;
         env->planex = 0;
     env->planey = 0.66;
     env->dirx = -1;
-    env->diry = 0.66;
+    env->diry = 0;
+        env->movespeed = 0.3;
+        env->rotspeed = 0.2;
+
 }
 
 int     parse(t_wolf *env)

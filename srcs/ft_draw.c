@@ -53,13 +53,15 @@ void    draw(t_wolf *env)
     int stepx;
     int stepy;
     int side;
+    int color1;
+    int color2;
 
     i = 0;
 
 
     while (i < WIDTH)
     {
-        camerax = 2 * i / WIDTH - 1;
+        camerax = 2 * i / (double)WIDTH - 1;
         raydirx = env->dirx + env->planex * camerax;
         raydiry = env->diry + env->planey * camerax;
         mapx = (int)env->playerx;
@@ -70,21 +72,25 @@ void    draw(t_wolf *env)
         {
             stepx = -1;
             sidedistx = (env->playerx - mapx) * deltadistx;
+            color1 = 0xFF0000;
         }
         else
         {
             stepx = 1;
-            sidedistx = (mapx + 1 - env->playerx) * deltadistx;
+            sidedistx = (mapx + 1.0 - env->playerx) * deltadistx;
+            color1 = 0x935347;
         }
         if (raydiry < 0)
         {
             stepy = -1;
             sidedisty = (env->playery - mapy) * deltadisty;
+            color2 = 0x00FF00;
         }
         else
         {
             stepy = 1;
-            sidedisty = (mapy + 1 - env->playery) * deltadisty;
+            sidedisty = (mapy + 1.0 - env->playery) * deltadisty;
+            color2 = 0x0000FF;
         }
         while(env->map[mapx][mapy] != '1')
         {
@@ -93,17 +99,21 @@ void    draw(t_wolf *env)
                 sidedistx += deltadistx;
                 mapx += stepx;
                 side = 0;
+                env->color = color1;
+
             }
             else
             {
                 sidedisty += deltadisty;
                 mapy += stepy;
                 side = 1;
+                env->color = color2;
+
             }
-        printf("wall x:%d y:%d\n", mapx, mapy);
+        //printf("wall x:%d y:%d\n", mapx, mapy);
         }
 
-        if (!side)
+        if (side == 0)
             perpwalldist = (mapx - env->playerx + (1 - stepx) / 2) / raydirx;
         else
             perpwalldist = (mapy - env->playery + (1 - stepy) / 2) / raydiry;
@@ -114,9 +124,9 @@ void    draw(t_wolf *env)
             int drawend = hwall / 2 + HEIGHT / 2;
             if (drawend >= HEIGHT)
                 drawend = HEIGHT - 1;
-        printf("hwall:%d\n", hwall);
-        ray(env, drawstart, drawend, i, 0xFF0000);
-        ft_printf("################################################################\n");
+        //printf("hwall:%d\n", hwall);
+        ray(env, drawstart, drawend, i, env->color);
+        //ft_printf("################################################################\n");
 
         i++;
     }

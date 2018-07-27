@@ -60,17 +60,19 @@ typedef struct      s_wolf
     int             mapy;
     double          ray;
     double          angle_cast;
-    int             playerx;
-    int             playery;
+    double             playerx;
+    double             playery;
     double          planex;
     double          planey;
     double          dirx;
     double          diry;
-    int             movespeed;
+    double           movespeed;
+    double          rotspeed;
     double             ihx;
     double             ihy;
     double             ivx;
     double             ivy;
+    int                 color;
 }                   t_wolf;
 
 int     parse(t_wolf *env);
