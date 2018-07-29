@@ -45,7 +45,7 @@ void            fill(t_wolf *env)
          double oldplanex = player->planex;
          player->planex = player->planex * cos(-player->rotspeed) - player->planey * sin(-player->rotspeed);
          player->planey = oldplanex * sin(-player->rotspeed) + player->planey * cos(-player->rotspeed);
-    draw(env, env->map, player);
+    dda_algo(env, env->player, env->map);
      }
       if (keycode == 123 || keycode == 0)
      {
@@ -56,7 +56,7 @@ void            fill(t_wolf *env)
          double oldplanex = player->planex;
          player->planex = player->planex * cos(player->rotspeed) - player->planey * sin(player->rotspeed);
          player->planey = oldplanex * sin(player->rotspeed) + player->planey * cos(player->rotspeed);
-    draw(env, env->map, player);
+    dda_algo(env, env->player, env->map);
      }
      if (keycode == 126 || keycode == 13)
      {
@@ -66,7 +66,7 @@ void            fill(t_wolf *env)
             fill(env);
             player->x += player->dirx * player->movespeed;
             player->y += player->diry * player->movespeed;
-    draw(env, env->map, player);
+    dda_algo(env, env->player, env->map);
         }
      }
      if (keycode == 125 || keycode == 1)
@@ -77,7 +77,7 @@ void            fill(t_wolf *env)
             fill(env);
             player->x -= player->dirx * player->movespeed;
             player->y -= player->diry * player->movespeed;
-    draw(env, env->map, player);
+    dda_algo(env, env->player, env->map);
 
         }
      }
@@ -93,11 +93,12 @@ void    wolf(t_wolf *env)
 	int	bpp;
     int	endian;
 
+
     env->mlx = mlx_init();
     env->win = mlx_new_window(env->mlx, WIDTH, HEIGHT, "Wolf3d");
     env->img = mlx_new_image(env->mlx, WIDTH, HEIGHT);
     env->data = (int*)mlx_get_data_addr(env->img, &bpp, &size_l, &endian);
-    draw(env, env->map, env->player);
+    dda_algo(env, env->player, env->map);
     //mlx_key_hook(env->win, keyboard, env);
     mlx_hook(env->win, 2, (1L << 0), keyboard, env);
 	mlx_hook(env->win, 17, (1L << 17), cross, env);

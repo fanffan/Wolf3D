@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+         #
+#    By: francoismaury <francoismaury@student.42    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/04 11:00:31 by fmaury            #+#    #+#              #
-#    Updated: 2018/07/20 14:27:32 by fmaury           ###   ########.fr        #
+#    Updated: 2018/07/29 17:05:37 by francoismau      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ SRC				=	main.c \
 					ft_parse.c \
 					ft_wolf.c \
 					ft_tools.c \
-					ft_draw.c
+					dda_algo.c \
 
 OBJ				= $(SRC:.c=.o)
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wolf.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+        */
+/*   By: francoismaury <francoismaury@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/12 16:55:22 by fmaury            #+#    #+#             */
-/*   Updated: 2018/07/27 17:32:22 by fmaury           ###   ########.fr       */
+/*   Updated: 2018/07/29 20:19:48 by francoismau      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,41 @@ typedef struct      s_map
     char            **map;
     int             x;
     int             y;
+    int             mapx;
+    int             mapy;
 }                   t_map;
+
+typedef struct		s_img
+{
+	void			*im;
+	int			*imc;
+	int				imlen;
+	int				bpp;
+	int				endi;
+}					t_img;
 
 typedef struct      s_player
 {
     double          x;
     double          y;
+    double          camerax;
+    double          raydirx;
+    double          raydiry;
     double          planex;
     double          planey;
     double          dirx;
     double          diry;
+    double          sidedistx;
+    double          sidedisty;
+    double          deltadistx;
+    double          deltadisty;
+    double          perpwalldist;
+    int             hwall;
+    int             stepx;
+    int             stepy;
+    int             side;
+    int             color1;
+    int             color2;
     double          movespeed;
     double          rotspeed;
 }                   t_player;
@@ -58,12 +83,17 @@ typedef struct      s_wolf
     t_map           *map;
     t_player        *player;
     int             color;
+    int drawstart;
+        int drawend;
+        void        *t_wl;
+        t_img       sky;
+
 }                   t_wolf;
 
-int     parse(t_wolf *env, t_map * map, t_player *player);
+int         parse(t_wolf *env, t_map * map, t_player *player);
 void        wolf(t_wolf *env);
-void        draw(t_wolf *env, t_map * map, t_player *player);
-double     deg_to_rad(double deg);
-double     rad_to_deg(double rad);
+void        dda_algo(t_wolf *env, t_player *player, t_map *map);
+double      deg_to_rad(double deg);
+double      rad_to_deg(double rad);
 
 #endif
