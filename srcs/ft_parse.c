@@ -12,7 +12,7 @@
 
 #include "wolf.h"
 
-void    find_player(char *line, t_wolf *env)
+void    find_player(char *line, t_map *map, t_player *player)
 {
     int i;
 
@@ -21,43 +21,39 @@ void    find_player(char *line, t_wolf *env)
     {
         if (line[i] == 'x')
         {
-            env->playerx = (int)((i - 1) * CUBE) + (int)(CUBE / 2);
-            env->playery = (int)((env->mapy - 1) * CUBE) + (int)(CUBE / 2);
-            //ft_printf ("x:%d y:%d cx:%d cy:%d\n", i, env->mapy, env->playerx, env->playery);
+            player->x = map->y;
+            player->y = i;
+            ft_printf ("x:%d y:%d cx:%d cy:%d\n", i, map->y, player->x, player->y);
         }
         i++;
     }
-        env->playerx = 5;
-    env->playery = 5;
-        env->planex = 0;
-    env->planey = 0.66;
-    env->dirx = -1;
-    env->diry = 0;
-        env->movespeed = 0.3;
-        env->rotspeed = 0.2;
-
+    player->planex = 0;
+    player->planey = 0.66;
+    player->dirx = -1;
+    player->diry = 0;
+    player->movespeed = 0.2;
+    player->rotspeed = 0.2;
 }
 
-int     parse(t_wolf *env)
+int     parse(t_wolf *env, t_map *map, t_player *player)
 {
     int ret;
     char *line;
 
     while ((ret = get_next_line(env->fd, &line)) > 0)
     {
-        env->map = ft_strtab(env->map, line);
-        env->mapx = (int)ft_strlen(line);
-        find_player(line, env);
-        env->mapy++;
+        map->map = ft_strtab(map->map, line);
+        map->x = (int)ft_strlen(line);
+        find_player(line, map, player);
+        map->y++;
     }
     int i;
     i = 0;
-    while (env->map[i])
+    while (map->map[i])
     {
-        printf("%s\n", env->map[i]);
+        printf("%s\n", map->map[i]);
         i++;
     }
-    env->ray = 180;
     if (ret == -1)
         return (0);
     return (1);

@@ -26,17 +26,7 @@ void    ray(t_wolf *env, int drawstart, int drawend, int j, int color)
     }
 }
 
-// void    wall(t_wolf *env, double dist, int i, int color)
-// {
-//     int hwall;
-
-//     hwall = (int)(CUBE * DISTPLAY / (dist * cos((double)(deg_to_rad(i * -0.1 + 30)))));
-//     ft_printf("wall: %d dist:%d\n", hwall, dist);
-//     ray(env, hwall, i, color);
-
-// }
-
-void    draw(t_wolf *env)
+void    draw(t_wolf *env, t_map *map, t_player *player)
 {
     double camerax;
     double raydirx;
@@ -57,42 +47,40 @@ void    draw(t_wolf *env)
     int color2;
 
     i = 0;
-
-
     while (i < WIDTH)
     {
         camerax = 2 * i / (double)WIDTH - 1;
-        raydirx = env->dirx + env->planex * camerax;
-        raydiry = env->diry + env->planey * camerax;
-        mapx = (int)env->playerx;
-        mapy = (int)env->playery;
+        raydirx = player->dirx + player->planex * camerax;
+        raydiry = player->diry + player->planey * camerax;
+        mapx = (int)player->x;
+        mapy = (int)player->y;
         deltadistx = fabs(1 / raydirx);
         deltadisty = fabs(1 / raydiry);
         if  (raydirx < 0)
         {
             stepx = -1;
-            sidedistx = (env->playerx - mapx) * deltadistx;
+            sidedistx = (player->x - mapx) * deltadistx;
             color1 = 0xFF0000;
         }
         else
         {
             stepx = 1;
-            sidedistx = (mapx + 1.0 - env->playerx) * deltadistx;
-            color1 = 0x935347;
+            sidedistx = (mapx + 1.0 - player->x) * deltadistx;
+            color1 = 0xfce25a;
         }
         if (raydiry < 0)
         {
             stepy = -1;
-            sidedisty = (env->playery - mapy) * deltadisty;
+            sidedisty = (player->y - mapy) * deltadisty;
             color2 = 0x00FF00;
         }
         else
         {
             stepy = 1;
-            sidedisty = (mapy + 1.0 - env->playery) * deltadisty;
+            sidedisty = (mapy + 1.0 - player->y) * deltadisty;
             color2 = 0x0000FF;
         }
-        while(env->map[mapx][mapy] != '1')
+        while(map->map[mapx][mapy] != '1')
         {
             if (sidedistx < sidedisty)
             {
@@ -114,9 +102,9 @@ void    draw(t_wolf *env)
         }
 
         if (side == 0)
-            perpwalldist = (mapx - env->playerx + (1 - stepx) / 2) / raydirx;
+            perpwalldist = (mapx - player->x + (1 - stepx) / 2) / raydirx;
         else
-            perpwalldist = (mapy - env->playery + (1 - stepy) / 2) / raydiry;
+            perpwalldist = (mapy - player->y + (1 - stepy) / 2) / raydiry;
         hwall = (int)(HEIGHT / perpwalldist);
         int drawstart = -hwall / 2 + HEIGHT / 2;
         if (drawstart < 0)

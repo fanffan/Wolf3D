@@ -13,8 +13,8 @@
 #ifndef WOLF_H
 # define WOLF_H
 
-#define WIDTH 600
-#define HEIGHT 500
+#define WIDTH 900
+#define HEIGHT 700
 #define CUBE 64
 #define FOV 60
 #define DISTPLAY 277
@@ -32,20 +32,20 @@
 typedef struct      s_map
 {
     char            **map;
-    int             xmax;
-    int             ymax;
+    int             x;
+    int             y;
 }                   t_map;
 
 typedef struct      s_player
 {
-    double          ray;
-    double          angle_cast;
-    int             playerx;
-    int             playery;
-    double          ihx;
-    double          ihy;
-    double          ivx;
-    double          ivy;
+    double          x;
+    double          y;
+    double          planex;
+    double          planey;
+    double          dirx;
+    double          diry;
+    double          movespeed;
+    double          rotspeed;
 }                   t_player;
 
 typedef struct      s_wolf
@@ -55,32 +55,14 @@ typedef struct      s_wolf
     void			*img;
     int	            *data;
     int             fd;
-    char            **map;
-    int             mapx;
-    int             mapy;
-    double          ray;
-    double          angle_cast;
-    double             playerx;
-    double             playery;
-    double          planex;
-    double          planey;
-    double          dirx;
-    double          diry;
-    double           movespeed;
-    double          rotspeed;
-    double             ihx;
-    double             ihy;
-    double             ivx;
-    double             ivy;
-    int                 color;
+    t_map           *map;
+    t_player        *player;
+    int             color;
 }                   t_wolf;
 
-int     parse(t_wolf *env);
+int     parse(t_wolf *env, t_map * map, t_player *player);
 void        wolf(t_wolf *env);
-void        draw(t_wolf *env);
-int     find_hori(t_wolf *env);
-int        find_vert(t_wolf *env);
-double         dist(t_wolf *env, double x, double y);
+void        draw(t_wolf *env, t_map * map, t_player *player);
 double     deg_to_rad(double deg);
 double     rad_to_deg(double rad);
 

@@ -26,9 +26,6 @@ LIBNUX_FLAG = -L/usr/X11/lib -lXext -lX11 ./minilibx_linux/libmlx.a
 SRC				=	main.c \
 					ft_parse.c \
 					ft_wolf.c \
-					ft_find_hori.c \
-					ft_find_vert.c \
-					ft_dist.c \
 					ft_tools.c \
 					ft_draw.c
 
