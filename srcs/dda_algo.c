@@ -6,7 +6,7 @@
 /*   By: francoismaury <francoismaury@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/29 16:43:09 by francoismau       #+#    #+#             */
-/*   Updated: 2018/07/29 20:53:18 by francoismau      ###   ########.fr       */
+/*   Updated: 2018/08/02 23:40:34 by francoismau      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,22 +47,32 @@ void    initialize(int i, t_player *player, t_map *map)
     }
 }
 
-void    ray(t_wolf *env, int drawstart, int drawend, int j, int color,int *sky)
+void    ray(t_wolf *env, int drawstart, int drawend, int j, int color, t_player *player)
 {
     int i;
 
     i = 0;
-    (void)sky;
+    (void)color;
+int stexheight;
+    stexheight = 332;
     while (i < drawstart)
     {
-        if (sky[i * WIDTH + j])
-            env->data[i * WIDTH  + j] = sky[(40 + i) * 1920 + j];
+        if (env->sky.imc[i * WIDTH + j])
+            env->data[i * WIDTH  + j] = env->sky.imc[(40 + i) * 1920 + j];
         i++;
     }
+    int d;
+    int texy;
+    int texheight;
+    texheight = 332;
     while (drawstart < drawend)
     {
-            env->data[drawstart * WIDTH + j] = color;
-        drawstart++;
+            // env->data[drawstart * WIDTH + j] = color;
+            d = drawstart * 256 - HEIGHT * 128 + player->hwall * 128;
+            texy = ((d * texheight) / player->hwall) / 256;
+            if (env->wall.imc[texheight * texy + env->texx])
+                env->data[drawstart * WIDTH + j] = env->wall.imc[texheight * texy + env->texx];
+            drawstart++;
     }
     i = drawend;
         while (i < HEIGHT - 1)
@@ -78,6 +88,7 @@ void    dist(t_player *player, t_map *map)
         player->perpwalldist = (map->mapx - player->x + (1 - player->stepx) / 2) / player->raydirx;
     else
         player->perpwalldist = (map->mapy - player->y + (1 - player->stepy) / 2) / player->raydiry;
+
 }
 
 void    find_wall(t_wolf *env, t_player *player, t_map *map)
@@ -87,6 +98,7 @@ void    find_wall(t_wolf *env, t_player *player, t_map *map)
         if (player->sidedistx < player->sidedisty)
         {
             player->sidedistx += player->deltadistx;
+            
             map->mapx += player->stepx;
             player->side = 0;
             env->color = player->color1;
@@ -119,23 +131,38 @@ void dda_algo(t_wolf *env, t_player *player, t_map* map)
     int h;
 
     i = 0;
-    w = 612;
-    h = 408;
+    w = WIDTH;
+    h = HEIGHT;
     env->sky.im = mlx_xpm_file_to_image(env->mlx, "/Users/francoismaury/Projets/wolflodev/textures/sky3.xpm", &w, &h);
 	env->sky.imc = (int*)mlx_get_data_addr(env->sky.im, &env->sky.bpp, &env->sky.imlen, &env->sky.endi);
-        // mlx_put_image_to_window(env->mlx, env->win, env->sky.im, 0, 0);
-
+    env->wall.im = mlx_xpm_file_to_image(env->mlx, "/Users/francoismaury/Projets/wolflodev/textures/hstone.xpm", &w, &h);
+	env->wall.imc = (int*)mlx_get_data_addr(env->wall.im, &env->wall.bpp, &env->wall.imlen, &env->wall.endi);
     while (i < WIDTH)
     {
+
         initialize(i, player, map);
         find_wall(env, player, map);
         dist(player, map);
         wall(env, player);
-        ray(env, env->drawstart, env->drawend, i, env->color, env->sky.imc);
-        i++;
 
+    int texwidth;
+
+    texwidth = 332;
+        if (player->side == 0)
+            player->wallx = player->y + player->perpwalldist * player->raydiry;
+        else
+            player->wallx = player->x + player->perpwalldist * player->raydirx;
+        player->wallx -= floor(player->wallx);
+
+        env->texx = (int)(player->wallx * (double)texwidth);
+        if (player->side == 0 && player->raydirx > 0)
+            env->texx = texwidth - env->texx - 1;
+        if (player->side == 1 && player->raydiry < 0)
+            env->texx = texwidth - env->texx - 1;
+        ray(env, env->drawstart, env->drawend, i, env->color, player);
+        i++;
     }
-        mlx_put_image_to_window(env->mlx, env->win, env->img, 0, 0);
+    mlx_put_image_to_window(env->mlx, env->win, env->img, 0, 0);
 
 
 }
