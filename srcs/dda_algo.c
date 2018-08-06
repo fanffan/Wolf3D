@@ -6,163 +6,185 @@
 /*   By: francoismaury <francoismaury@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/29 16:43:09 by francoismau       #+#    #+#             */
-/*   Updated: 2018/08/02 23:40:34 by francoismau      ###   ########.fr       */
+/*   Updated: 2018/08/06 09:54:52 by francoismau      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 
-void    initialize(int i, t_player *player, t_map *map)
+void    initialize(int i, t_player *player, t_world *world, t_wolf *env)
 {
-    player->camerax = 2 * i / (double)WIDTH - 1;
-    player->raydirx = player->dirx + player->planex * player->camerax;
-    player->raydiry = player->diry + player->planey * player->camerax;
-    map->mapx = (int)player->x;
-    map->mapy = (int)player->y;
-    player->deltadistx = fabs(1 / player->raydirx);
-    player->deltadisty = fabs(1 / player->raydiry);
-    if  (player->raydirx < 0)
+    double camerax;
+    
+    camerax = 2 * i / (double)WIDTH - 1;
+    world->raydirx = player->dirx + player->planex * camerax;
+    world->raydiry = player->diry + player->planey * camerax;
+    world->mapx = (int)player->x;
+    world->mapy = (int)player->y;
+    world->deltadistx = fabs(1 / world->raydirx);
+    world->deltadisty = fabs(1 / world->raydiry);
+    if  (world->raydirx < 0)
     {
-        player->stepx = -1;
-        player->sidedistx = (player->x - map->mapx) * player->deltadistx;
+        world->stepx = -1;
+        world->sidedistx = (player->x - world->mapx) * world->deltadistx;
         player->color1 = 0xFF0000;
+        world->imc1 = env->wall1.imc;
+        world->texwidth1 = env->wall1.width;
+        world->texheight1 = env->wall1.height;
     }
     else
     {
-        player->stepx = 1;
-        player->sidedistx = (map->mapx + 1.0 - player->x) * player->deltadistx;
+        world->stepx = 1;
+        world->sidedistx = (world->mapx + 1.0 - player->x) * world->deltadistx;
         player->color1 = 0xfce25a;
+        world->imc1 = env->wall3.imc;
+        world->texwidth1 = env->wall3.width;
+        world->texheight1 = env->wall3.height;
     }
-    if (player->raydiry < 0)
+    if (world->raydiry < 0)
     {
-        player->stepy = -1;
-        player->sidedisty = (player->y - map->mapy) * player->deltadisty;
+        world->stepy = -1;
+        world->sidedisty = (player->y - world->mapy) * world->deltadisty;
         player->color2 = 0x00FF00;
+        world->imc2 = env->wall4.imc;
+        world->texwidth2 = env->wall4.width;
+        world->texheight2 = env->wall4.height;
     }
     else
     {
-        player->stepy = 1;
-        player->sidedisty = (map->mapy + 1.0 - player->y) * player->deltadisty;
+        world->stepy = 1;
+        world->sidedisty = (world->mapy + 1.0 - player->y) * world->deltadisty;
         player->color2 = 0x0000FF;
+        world->imc2 = env->wall2.imc;
+        world->texwidth2 = env->wall2.width;
+        world->texheight2 = env->wall2.height;
     }
 }
 
-void    ray(t_wolf *env, int drawstart, int drawend, int j, int color, t_player *player)
+void    ray(t_wolf *env, int drawstart, int drawend, int j, int color, t_world *world)
 {
     int i;
+    int d;
+    int texy;
 
-    i = 0;
+
     (void)color;
-int stexheight;
-    stexheight = 332;
+    i = 0;
     while (i < drawstart)
     {
         if (env->sky.imc[i * WIDTH + j])
             env->data[i * WIDTH  + j] = env->sky.imc[(40 + i) * 1920 + j];
         i++;
     }
-    int d;
-    int texy;
-    int texheight;
-    texheight = 332;
+
     while (drawstart < drawend)
     {
+
             // env->data[drawstart * WIDTH + j] = color;
-            d = drawstart * 256 - HEIGHT * 128 + player->hwall * 128;
-            texy = ((d * texheight) / player->hwall) / 256;
-            if (env->wall.imc[texheight * texy + env->texx])
-                env->data[drawstart * WIDTH + j] = env->wall.imc[texheight * texy + env->texx];
+            d = drawstart * 256 - HEIGHT * 128 + world->hwall * 128;
+            texy = ((d * world->texheight) / world->hwall) / 256;
+            // printf("texheight:332 texwidth:332 texy:%d world->texx:%d res:%d\n", texy, world->texx, 332 * texy + world->texx);
+            if (world->texheight * texy + world->texx < world->texheight * world->texwidth)
+                env->data[drawstart * WIDTH + j] = world->imc[world->texheight * texy + world->texx];
             drawstart++;
     }
     i = drawend;
-        while (i < HEIGHT - 1)
+    while (i < HEIGHT)
     {
+        d = i * 256 - HEIGHT * 128 + (HEIGHT - drawend) * 128;
+        texy = ((d * env->floor.height) / (HEIGHT - drawend)) / 256;
         env->data[i * WIDTH + j] = 0xB29A9A;
+        // if (env->floor.height * texy + world->texx < env->floor.height * env->floor.width)
+        // env->data[i * WIDTH + j] = env->floor.imc[env->floor.height * texy + world->texx];
         i++;
     }
 }
 
-void    dist(t_player *player, t_map *map)
+void    dist(t_player *player, t_world *world)
 {
-    if (player->side == 0)
-        player->perpwalldist = (map->mapx - player->x + (1 - player->stepx) / 2) / player->raydirx;
+    if (world->side == 0)
+        world->perpwalldist = (world->mapx - player->x + (1 - world->stepx) / 2) / world->raydirx;
     else
-        player->perpwalldist = (map->mapy - player->y + (1 - player->stepy) / 2) / player->raydiry;
+        world->perpwalldist = (world->mapy - player->y + (1 - world->stepy) / 2) / world->raydiry;
 
 }
 
-void    find_wall(t_wolf *env, t_player *player, t_map *map)
+void    find_wall(t_player *player, t_map *map, t_world *world)
 {
-    while(map->map[map->mapx][map->mapy] != '1')
+    while(map->map[world->mapx][world->mapy] != '1')
     {
-        if (player->sidedistx < player->sidedisty)
+        if (world->sidedistx < world->sidedisty)
         {
-            player->sidedistx += player->deltadistx;
+            world->sidedistx += world->deltadistx;
             
-            map->mapx += player->stepx;
-            player->side = 0;
-            env->color = player->color1;
-
+            world->mapx += world->stepx;
+            world->side = 0;
+            world->color = player->color1;
+            world->imc = world->imc1;
+            world->texwidth = world->texwidth1;
+            world->texheight = world->texheight1;
         }
         else
         {
-            player->sidedisty += player->deltadisty;
-            map->mapy += player->stepy;
-            player->side = 1;
-            env->color = player->color2;
+            world->sidedisty += world->deltadisty;
+            world->mapy += world->stepy;
+            world->side = 1;
+            world->color = player->color2;
+            world->imc = world->imc2;
+            world->texwidth = world->texwidth2;
+            world->texheight = world->texheight2;
         }
     }
 }
 
-void wall(t_wolf *env, t_player *player)
+void wall(t_world *world)
 {
-    player->hwall = (int)(HEIGHT / player->perpwalldist);
-    env->drawstart = -player->hwall / 2 + HEIGHT / 2;
-    if (env->drawstart < 0)
-        env->drawstart = 0;
-    env->drawend = player->hwall / 2 + HEIGHT / 2;
-    if (env->drawend >= HEIGHT)
-        env->drawend = HEIGHT - 1;
+    world->hwall = (int)(HEIGHT / world->perpwalldist);
+    world->drawstart = -world->hwall / 2 + HEIGHT / 2;
+    if (world->drawstart < 0)
+        world->drawstart = 0;
+    world->drawend = world->hwall / 2 + HEIGHT / 2;
+    if (world->drawend >= HEIGHT)
+        world->drawend = HEIGHT - 1;
 }
-void dda_algo(t_wolf *env, t_player *player, t_map* map)
+
+void texture(t_player *player, t_world *world)
 {
-    int i;
-    int w;
-    int h;
-
-    i = 0;
-    w = WIDTH;
-    h = HEIGHT;
-    env->sky.im = mlx_xpm_file_to_image(env->mlx, "/Users/francoismaury/Projets/wolflodev/textures/sky3.xpm", &w, &h);
-	env->sky.imc = (int*)mlx_get_data_addr(env->sky.im, &env->sky.bpp, &env->sky.imlen, &env->sky.endi);
-    env->wall.im = mlx_xpm_file_to_image(env->mlx, "/Users/francoismaury/Projets/wolflodev/textures/hstone.xpm", &w, &h);
-	env->wall.imc = (int*)mlx_get_data_addr(env->wall.im, &env->wall.bpp, &env->wall.imlen, &env->wall.endi);
-    while (i < WIDTH)
-    {
-
-        initialize(i, player, map);
-        find_wall(env, player, map);
-        dist(player, map);
-        wall(env, player);
-
-    int texwidth;
-
-    texwidth = 332;
-        if (player->side == 0)
-            player->wallx = player->y + player->perpwalldist * player->raydiry;
+    if (world->side == 0)
+            world->wallx = player->y + world->perpwalldist * world->raydiry;
         else
-            player->wallx = player->x + player->perpwalldist * player->raydirx;
-        player->wallx -= floor(player->wallx);
+            world->wallx = player->x + world->perpwalldist * world->raydirx;
+        world->wallx -= floor(world->wallx);
 
-        env->texx = (int)(player->wallx * (double)texwidth);
-        if (player->side == 0 && player->raydirx > 0)
-            env->texx = texwidth - env->texx - 1;
-        if (player->side == 1 && player->raydiry < 0)
-            env->texx = texwidth - env->texx - 1;
-        ray(env, env->drawstart, env->drawend, i, env->color, player);
+        world->texx = (int)(world->wallx * (double)world->texwidth);
+        if (world->side == 0 && world->raydirx > 0)
+            world->texx = world->texwidth - world->texx - 1;
+        if (world->side == 1 && world->raydiry < 0)
+            world->texx = world->texwidth - world->texx - 1;
+}
+
+void dda_algo(t_wolf *env, int i, int width)
+{
+
+    t_player *player;
+    t_map *map;
+    t_world world;
+
+    player = env->player;
+    map = env->map;
+    ft_bzero(&world, sizeof(t_world));
+    while (i < width)
+    {
+        // printf("I:%d\n",i);
+
+        initialize(i, player, &world, env);
+        find_wall(player, map, &world);
+        dist(player, &world);
+        wall(&world);
+        texture(player, &world);
+        ray(env, world.drawstart, world.drawend, i, world.color, &world);
         i++;
     }
-    mlx_put_image_to_window(env->mlx, env->win, env->img, 0, 0);
 
 
 }

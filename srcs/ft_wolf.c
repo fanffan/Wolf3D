@@ -45,7 +45,7 @@ void            fill(t_wolf *env)
          double oldplanex = player->planex;
          player->planex = player->planex * cos(-player->rotspeed) - player->planey * sin(-player->rotspeed);
          player->planey = oldplanex * sin(-player->rotspeed) + player->planey * cos(-player->rotspeed);
-    dda_algo(env, env->player, env->map);
+    multi_thread(env);
      }
       if (keycode == 123 || keycode == 0)
      {
@@ -56,28 +56,28 @@ void            fill(t_wolf *env)
          double oldplanex = player->planex;
          player->planex = player->planex * cos(player->rotspeed) - player->planey * sin(player->rotspeed);
          player->planey = oldplanex * sin(player->rotspeed) + player->planey * cos(player->rotspeed);
-    dda_algo(env, env->player, env->map);
+    multi_thread(env);
      }
      if (keycode == 126 || keycode == 13)
      {
-        if (env->map->map[(int)(player->x + player->dirx * player->movespeed)][(int)player->y] != '1' &&
-            env->map->map[(int)(player->x)][(int)(player->y + player->diry * player->movespeed)] != '1')
+        if (env->map->map[(int)(player->x + player->dirx * player->movespeed)] \
+            [(int)(player->y + player->diry * player->movespeed)] != '1')
         {
             fill(env);
             player->x += player->dirx * player->movespeed;
             player->y += player->diry * player->movespeed;
-    dda_algo(env, env->player, env->map);
+    multi_thread(env);
         }
      }
      if (keycode == 125 || keycode == 1)
      {
-        if (env->map->map[(int)(player->x - player->dirx * player->movespeed)][(int)player->y] != '1' &&
-            env->map->map[(int)(player->x)][(int)(player->y - player->diry * player->movespeed)] != '1')
+        if (env->map->map[(int)(player->x - player->dirx * player->movespeed)] \
+        [(int)(player->y - player->diry * player->movespeed)] != '1')
         {
             fill(env);
             player->x -= player->dirx * player->movespeed;
             player->y -= player->diry * player->movespeed;
-    dda_algo(env, env->player, env->map);
+    multi_thread(env);
 
         }
      }
@@ -98,8 +98,7 @@ void    wolf(t_wolf *env)
     env->win = mlx_new_window(env->mlx, WIDTH, HEIGHT, "Wolf3d");
     env->img = mlx_new_image(env->mlx, WIDTH, HEIGHT);
     env->data = (int*)mlx_get_data_addr(env->img, &bpp, &size_l, &endian);
-    dda_algo(env, env->player, env->map);
-    //mlx_key_hook(env->win, keyboard, env);
+    multi_thread(env);
     mlx_hook(env->win, 2, (1L << 0), keyboard, env);
 	mlx_hook(env->win, 17, (1L << 17), cross, env);
 	mlx_loop(env->mlx);
