@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wolf.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: francoismaury <francoismaury@student.42    +#+  +:+       +#+        */
+/*   By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/12 16:55:22 by fmaury            #+#    #+#             */
-/*   Updated: 2018/08/05 01:04:14 by francoismau      ###   ########.fr       */
+/*   Updated: 2018/09/14 16:44:52 by fmaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typedef struct      s_world
     int             drawstart;
     int             drawend;
     int             texx;
+	int				texf;
     int			    *imc1;
     int			    *imc2;
     int			    *imc;
@@ -117,12 +118,12 @@ typedef struct		s_thread
 	int				i;
 }					t_thread;
 
-int         parse(t_wolf *env, t_map * map, t_player *player);
-void        wolf(t_wolf *env);
-void        dda_algo(t_wolf *env, int i, int width);
-void	multi_thread(t_wolf *env);
-
-double      deg_to_rad(double deg);
-double      rad_to_deg(double rad);
+int			parse(t_wolf *env, t_map * map, t_player *player);
+void		wolf(t_wolf *env);
+void		dda_algo(t_wolf *env, int i, int width);
+void		multi_thread(t_wolf *env);
+void		initialize(int i, t_player *player, t_world *world, t_wolf *env);
+double		deg_to_rad(double deg);
+double		rad_to_deg(double rad);
 
 #endif

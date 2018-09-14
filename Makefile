@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: francoismaury <francoismaury@student.42    +#+  +:+       +#+         #
+#    By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/04 11:00:31 by fmaury            #+#    #+#              #
-#    Updated: 2018/08/04 00:36:54 by francoismau      ###   ########.fr        #
+#    Updated: 2018/09/14 17:10:18 by fmaury           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,10 +24,10 @@ LIB_FLAG = -framework OpenGL -framework AppKit ./minilibx_macos/libmlx.a
 LIBNUX_FLAG = -L/usr/X11/lib -lXext -lX11 ./minilibx_linux/libmlx.a
 
 SRC				=	main.c \
-					ft_parse.c \
-					ft_wolf.c \
-					ft_tools.c \
+					parse.c \
+					wolf.c \
 					dda_algo.c \
+					initialize.c \
 					multi_thread.c
 
 OBJ				= $(SRC:.c=.o)
