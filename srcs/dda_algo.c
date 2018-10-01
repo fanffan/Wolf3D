@@ -6,51 +6,49 @@
 /*   By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/29 16:43:09 by francoismau       #+#    #+#             */
-/*   Updated: 2018/09/14 17:53:05 by fmaury           ###   ########.fr       */
+/*   Updated: 2018/10/01 17:50:36 by fmaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 
-void	ray(t_wolf *env, int drawstart, int drawend, int j, t_world *world)
+void	draw(t_wolf *env, int j, t_world *world)
 {
 	int i;
 	int d;
 	int texy;
 
 	i = 0;
-	while (i < drawstart)
+	while (i < world->drawstart)
 	{
-		if (env->sky.imc[i * WIDTH + j])
-			env->data[i * WIDTH + j] = env->sky.imc[(40 + i) * 1920 + j];
+		env->data[i * WIDTH + j] = env->sky.imc[i * env->sky.width + j];
 		i++;
 	}
-	while (drawstart < drawend)
+	while (world->drawstart < world->drawend)
 	{
-		d = drawstart * 256 - HEIGHT * 128 + world->hwall * 128;
+		d = world->drawstart * 256 - HEIGHT * 128 + world->hwall * 128;
 		texy = ((d * world->texheight) / world->hwall) / 256;
-		if (world->texheight * texy + world->texx < world->texheight * world->texwidth)
-			env->data[drawstart * WIDTH + j] = world->imc[world->texheight * texy + world->texx];
-		drawstart++;
+		if (world->texheight * texy + world->texx < world->texheight *
+		world->texwidth)
+			env->data[world->drawstart * WIDTH + j] =
+			world->imc[world->texheight * texy + world->texx];
+		world->drawstart++;
 	}
-	i = drawend;
-	while (i < HEIGHT)
+	while (world->drawend < HEIGHT)
 	{
-		d = i * 256 - HEIGHT * 128 + (HEIGHT - drawend) * 128;
-		texy = ((d * env->floor.height) / (HEIGHT - drawend)) / 256;
-		env->data[i * WIDTH + j] = 0xB29A9A;
-		// if (env->floor.height * texy + world->texx < env->floor.height * env->floor.width)
-		// env->data[i * WIDTH + j] = env->floor.imc[env->floor.height * texy + world->texx];
-		i++;
+		env->data[world->drawend * WIDTH + j] = 0xB29A9A;
+		world->drawend++;
 	}
 }
 
 void	dist(t_player *player, t_world *world)
 {
 	if (world->side == 0)
-		world->perpwalldist = (world->mapx - player->x + (1 - world->stepx) / 2) / world->raydirx;
+		world->perpwalldist = (world->mapx - player->x +
+		(1 - world->stepx) / 2) / world->raydirx;
 	else
-		world->perpwalldist = (world->mapy - player->y + (1 - world->stepy) / 2) / world->raydiry;
+		world->perpwalldist = (world->mapy - player->y +
+		(1 - world->stepy) / 2) / world->raydiry;
 }
 
 void	find_wall(t_player *player, t_map *map, t_world *world)
@@ -121,7 +119,7 @@ void	dda_algo(t_wolf *env, int i, int width)
 		dist(player, &world);
 		wall(&world);
 		texture(player, &world);
-		ray(env, world.drawstart, world.drawend, i, &world);
+		draw(env, i, &world);
 		i++;
 	}
 }

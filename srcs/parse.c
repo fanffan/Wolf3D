@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_parse.c                                         :+:      :+:    :+:   */
+/*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/12 18:10:28 by fmaury            #+#    #+#             */
-/*   Updated: 2018/09/14 17:09:20 by fmaury           ###   ########.fr       */
+/*   Updated: 2018/10/01 15:31:33 by fmaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	find_player(char *line, t_map *map, t_player *player)
 		{
 			player->x = map->y;
 			player->y = i;
-			ft_printf ("x:%d y:%d cx:%d cy:%d\n", i, map->y, player->x, player->y);
 		}
 		i++;
 	}
@@ -54,7 +53,10 @@ int		parse(t_wolf *env, t_map *map, t_player *player)
 		printf("%s\n", map->map[i]);
 		i++;
 	}
-	if (ret == -1)
+	if (ret == -1 || !checker(map))
+	{
+		ft_putstr("Map error\n");
 		return (0);
+	}
 	return (1);
 }
