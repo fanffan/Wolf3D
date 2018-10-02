@@ -6,7 +6,7 @@
 /*   By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/29 16:43:09 by francoismau       #+#    #+#             */
-/*   Updated: 2018/10/02 11:10:26 by fmaury           ###   ########.fr       */
+/*   Updated: 2018/10/02 18:07:51 by fmaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	dist(t_player *player, t_world *world)
 		(1 - world->stepy) / 2) / world->raydiry;
 }
 
-void	find_wall(t_player *player, t_map *map, t_world *world)
+void	find_wall(t_map *map, t_world *world)
 {
 	while (map->map[world->mapx][world->mapy] != '1')
 	{
@@ -31,7 +31,6 @@ void	find_wall(t_player *player, t_map *map, t_world *world)
 			world->sidedistx += world->deltadistx;
 			world->mapx += world->stepx;
 			world->side = 0;
-			world->color = player->color1;
 			world->imc = world->imc1;
 			world->texwidth = world->texwidth1;
 			world->texheight = world->texheight1;
@@ -41,7 +40,6 @@ void	find_wall(t_player *player, t_map *map, t_world *world)
 			world->sidedisty += world->deltadisty;
 			world->mapy += world->stepy;
 			world->side = 1;
-			world->color = player->color2;
 			world->imc = world->imc2;
 			world->texwidth = world->texwidth2;
 			world->texheight = world->texheight2;
@@ -86,7 +84,7 @@ void	dda_algo(t_wolf *env, int i, int width)
 	while (i < width)
 	{
 		initialize(i, player, &world, env);
-		find_wall(player, map, &world);
+		find_wall(map, &world);
 		dist(player, &world);
 		wall(&world);
 		texture(player, &world);

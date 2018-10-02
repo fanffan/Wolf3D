@@ -6,7 +6,7 @@
 /*   By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/02 12:12:51 by fmaury            #+#    #+#             */
-/*   Updated: 2018/10/02 14:37:12 by fmaury           ###   ########.fr       */
+/*   Updated: 2018/10/02 18:42:55 by fmaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,13 @@ void	up_down(int keycode, t_wolf *env)
 	player = env->player;
 	if (keycode == 126 || keycode == 13)
 	{
-		if (env->map->map[(int)((player->x + player->dirx * player->movespeed) + player->dirx * player->movespeed)]\
-			[(int)((player->y + player->diry * player->movespeed) + player->diry * player->movespeed)] != '1')
+		if ((env->map->map[(int)((player->x + player->dirx * player->movespeed))]\
+			[(int)((player->y + player->diry * player->movespeed))] != '1') && \
+			(env->map->map[(int)((player->x + player->dirx * player->movespeed) + player->dirx * \
+			player->movespeed)][(int)((player->y + player->diry * player->movespeed) + player->diry * player->movespeed)] != '1') &&\
+			(env->map->map[(int)(((player->x + player->dirx * player->movespeed) + player->dirx * \
+			player->movespeed) + player->dirx * player->movespeed)][(int)(((player->y + player->diry * player->movespeed) +\
+			player->diry * player->movespeed) + player->diry * player->movespeed)] != '1'))
 		{
 			fill(env);
 			player->x += player->dirx * player->movespeed;
@@ -90,8 +95,12 @@ void	up_down(int keycode, t_wolf *env)
 	}
 	if (keycode == 125 || keycode == 1)
 	{
-		if (env->map->map[(int)((player->x - player->dirx * player->movespeed) - player->dirx * player->movespeed)]\
-		[(int)((player->y - player->diry * player->movespeed) - player->diry * player->movespeed)] != '1')
+		if ((env->map->map[(int)((player->x - player->dirx * player->movespeed))]\
+		[(int)((player->y - player->diry * player->movespeed))] != '1') &&\
+		(env->map->map[(int)((player->x - player->dirx * player->movespeed) - player->dirx * player->movespeed)]\
+		[(int)((player->y - player->diry * player->movespeed) - player->diry * player->movespeed)] != '1') &&\
+		(env->map->map[(int)(((player->x - player->dirx * player->movespeed) - player->dirx * player->movespeed) - player->dirx * player->movespeed)]\
+		[(int)(((player->y - player->diry * player->movespeed) - player->diry * player->movespeed) - player->diry * player->movespeed)] != '1'))
 		{
 			fill(env);
 			player->x -= player->dirx * player->movespeed;

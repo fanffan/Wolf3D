@@ -6,7 +6,7 @@
 /*   By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/14 16:19:06 by fmaury            #+#    #+#             */
-/*   Updated: 2018/09/14 16:26:45 by fmaury           ###   ########.fr       */
+/*   Updated: 2018/10/02 18:07:06 by fmaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	set_x(t_world *world, t_wolf *env, t_player *player)
 	{
 		world->stepx = -1;
 		world->sidedistx = (player->x - world->mapx) * world->deltadistx;
-		player->color1 = 0xFF0000;
 		world->imc1 = env->wall1.imc;
 		world->texwidth1 = env->wall1.width;
 		world->texheight1 = env->wall1.height;
@@ -27,7 +26,6 @@ void	set_x(t_world *world, t_wolf *env, t_player *player)
 	{
 		world->stepx = 1;
 		world->sidedistx = (world->mapx + 1.0 - player->x) * world->deltadistx;
-		player->color1 = 0xfce25a;
 		world->imc1 = env->wall3.imc;
 		world->texwidth1 = env->wall3.width;
 		world->texheight1 = env->wall3.height;
@@ -40,7 +38,6 @@ void	set_y(t_world *world, t_wolf *env, t_player *player)
 	{
 		world->stepy = -1;
 		world->sidedisty = (player->y - world->mapy) * world->deltadisty;
-		player->color2 = 0x00FF00;
 		world->imc2 = env->wall4.imc;
 		world->texwidth2 = env->wall4.width;
 		world->texheight2 = env->wall4.height;
@@ -49,7 +46,6 @@ void	set_y(t_world *world, t_wolf *env, t_player *player)
 	{
 		world->stepy = 1;
 		world->sidedisty = (world->mapy + 1.0 - player->y) * world->deltadisty;
-		player->color2 = 0x0000FF;
 		world->imc2 = env->wall2.imc;
 		world->texwidth2 = env->wall2.width;
 		world->texheight2 = env->wall2.height;

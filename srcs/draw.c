@@ -6,7 +6,7 @@
 /*   By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/02 11:10:18 by fmaury            #+#    #+#             */
-/*   Updated: 2018/10/02 11:16:14 by fmaury           ###   ########.fr       */
+/*   Updated: 2018/10/02 18:18:36 by fmaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ void	draw(t_wolf *env, int j, t_world *world)
 	draw_wall(env, j, world);
 	while (world->drawend < HEIGHT)
 	{
-		env->data[world->drawend * WIDTH + j] = 0xB29A9A;
+		if (world->drawend * WIDTH + j < HEIGHT * WIDTH - 1)
+			env->data[world->drawend * WIDTH + j] = 0xB29A9A;
 		world->drawend++;
 	}
 }
