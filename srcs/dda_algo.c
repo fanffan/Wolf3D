@@ -6,40 +6,11 @@
 /*   By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/29 16:43:09 by francoismau       #+#    #+#             */
-/*   Updated: 2018/10/01 17:50:36 by fmaury           ###   ########.fr       */
+/*   Updated: 2018/10/02 11:10:26 by fmaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
-
-void	draw(t_wolf *env, int j, t_world *world)
-{
-	int i;
-	int d;
-	int texy;
-
-	i = 0;
-	while (i < world->drawstart)
-	{
-		env->data[i * WIDTH + j] = env->sky.imc[i * env->sky.width + j];
-		i++;
-	}
-	while (world->drawstart < world->drawend)
-	{
-		d = world->drawstart * 256 - HEIGHT * 128 + world->hwall * 128;
-		texy = ((d * world->texheight) / world->hwall) / 256;
-		if (world->texheight * texy + world->texx < world->texheight *
-		world->texwidth)
-			env->data[world->drawstart * WIDTH + j] =
-			world->imc[world->texheight * texy + world->texx];
-		world->drawstart++;
-	}
-	while (world->drawend < HEIGHT)
-	{
-		env->data[world->drawend * WIDTH + j] = 0xB29A9A;
-		world->drawend++;
-	}
-}
 
 void	dist(t_player *player, t_world *world)
 {

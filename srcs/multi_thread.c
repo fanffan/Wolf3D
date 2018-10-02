@@ -6,7 +6,7 @@
 /*   By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/04 00:19:49 by francoismau       #+#    #+#             */
-/*   Updated: 2018/10/01 17:55:49 by fmaury           ###   ########.fr       */
+/*   Updated: 2018/10/02 10:57:57 by fmaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	is_texture_missing(t_wolf *env, int w, int h)
 	&w, &h);
 	env->wall4.im = mlx_xpm_file_to_image(env->mlx, "./textures/wall4.xpm",
 	&w, &h);
-	env->sky.im = mlx_xpm_file_to_image(env->mlx, "./textures/wow.xpm",
+	env->sky.im = mlx_xpm_file_to_image(env->mlx, "./textures/sky.xpm",
 	&w, &h);
 	env->floor.im = mlx_xpm_file_to_image(env->mlx, "./textures/grass.xpm",
 	&w, &h);
@@ -66,7 +66,7 @@ void	define_txt(t_wolf *env)
 {
 	env->sky.imc = (int*)mlx_get_data_addr(env->sky.im, &env->sky.bpp,
 	&env->sky.imlen, &env->sky.endi);
-	env->sky.width = 1024;
+	env->sky.width = 1192;
 	env->floor.imc = (int*)mlx_get_data_addr(env->floor.im, &env->floor.bpp,
 	&env->floor.imlen, &env->floor.endi);
 	env->floor.width = 380;

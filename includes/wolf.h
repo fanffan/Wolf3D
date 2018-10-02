@@ -6,14 +6,14 @@
 /*   By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/12 16:55:22 by fmaury            #+#    #+#             */
-/*   Updated: 2018/09/14 16:44:52 by fmaury           ###   ########.fr       */
+/*   Updated: 2018/10/02 13:51:31 by fmaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WOLF_H
 # define WOLF_H
 
-#define WIDTH 1200
+#define WIDTH 1192
 #define HEIGHT 900
 #define NBTHREAD 4
 
@@ -102,6 +102,7 @@ typedef struct      s_wolf
     void			*img;
     int	            *data;
     int             fd;
+    int             sound;
     t_map           *map;
     t_player        *player;
     t_img           wall1;
@@ -125,5 +126,10 @@ void		multi_thread(t_wolf *env);
 void		initialize(int i, t_player *player, t_world *world, t_wolf *env);
 double		deg_to_rad(double deg);
 double		rad_to_deg(double rad);
+int		    checker(t_map *map);
+void	    draw(t_wolf *env, int j, t_world *world);
+void	    right(int keycode, t_wolf *env);
+void	    left(int keycode, t_wolf *env);
+int		    keyboard(int keycode, t_wolf *env);
 
 #endif

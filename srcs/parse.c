@@ -6,7 +6,7 @@
 /*   By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/12 18:10:28 by fmaury            #+#    #+#             */
-/*   Updated: 2018/10/01 15:31:33 by fmaury           ###   ########.fr       */
+/*   Updated: 2018/10/02 13:52:12 by fmaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,7 @@ int		parse(t_wolf *env, t_map *map, t_player *player)
 		ft_putstr("Map error\n");
 		return (0);
 	}
+	system("killall afplay 2&>/dev/null >/dev/null\n afplay \
+				./sound/sound.mp3&");
 	return (1);
 }

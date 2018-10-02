@@ -6,7 +6,7 @@
 #    By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/04 11:00:31 by fmaury            #+#    #+#              #
-#    Updated: 2018/10/01 14:05:18 by fmaury           ###   ########.fr        #
+#    Updated: 2018/10/02 12:15:54 by fmaury           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,8 +25,10 @@ LIBNUX_FLAG = -L/usr/X11/lib -lXext -lX11 ./minilibx_linux/libmlx.a
 
 SRC				=	wolf.c \
 					main.c \
+					draw.c \
 					parse.c \
 					checker.c \
+					keyboard.c \
 					dda_algo.c \
 					initialize.c \
 					multi_thread.c
