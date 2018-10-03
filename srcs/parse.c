@@ -6,7 +6,7 @@
 /*   By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/12 18:10:28 by fmaury            #+#    #+#             */
-/*   Updated: 2018/10/02 18:16:43 by fmaury           ###   ########.fr       */
+/*   Updated: 2018/10/03 15:06:34 by fmaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int		find_player(char *line, t_map *map, t_player *player)
 	player->diry = 0;
 	player->movespeed = 0.1;
 	player->rotspeed = 0.2;
-
 	if (plyr == 0)
 		return (0);
 	return (1);
@@ -57,11 +56,6 @@ int		parse(t_wolf *env, t_map *map, t_player *player)
 		if (find_player(line, map, player) == 1)
 			err = 1;
 		map->y++;
-	}
-	while (map->map[i])
-	{
-		printf("%s\n", map->map[i]);
-		i++;
 	}
 	player->x += 0.5;
 	player->y += 0.5;

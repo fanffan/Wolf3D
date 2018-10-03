@@ -6,15 +6,41 @@
 /*   By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/13 13:34:49 by fmaury            #+#    #+#             */
-/*   Updated: 2018/10/02 13:54:54 by fmaury           ###   ########.fr       */
+/*   Updated: 2018/10/03 15:45:56 by fmaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 
-int		cross(void)
+void	fill(t_wolf *env)
+{
+	int i;
+
+	i = 0;
+	while (i < WIDTH * HEIGHT)
+	{
+		env->data[i] = 0;
+		i++;
+	}
+}
+
+void	free_struct(t_wolf *env)
+{
+	int i;
+
+	i = 0;
+	while (env->map->map[i])
+	{
+		free(env->map->map[i]);
+		i++;
+	}
+	free(env->map->map);
+}
+
+int		cross(t_wolf *env)
 {
 	system("pkill afplay");
+	free_struct(env);
 	exit(0);
 }
 

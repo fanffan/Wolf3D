@@ -6,23 +6,11 @@
 /*   By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/02 12:12:51 by fmaury            #+#    #+#             */
-/*   Updated: 2018/10/02 18:42:55 by fmaury           ###   ########.fr       */
+/*   Updated: 2018/10/03 15:46:00 by fmaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
-
-void	fill(t_wolf *env)
-{
-	int i;
-
-	i = 0;
-	while (i < WIDTH * HEIGHT)
-	{
-		env->data[i] = 0;
-		i++;
-	}
-}
 
 void	left(int keycode, t_wolf *env)
 {
@@ -72,6 +60,35 @@ void	right(int keycode, t_wolf *env)
 	}
 }
 
+int		iswall(int up_down, t_wolf *env, double x, double y)
+{
+	int			i;
+	t_player	*player;
+
+	i = 0;
+	player = env->player;
+	while (i < 3)
+	{
+		if (env->map->map[(int)x][(int)y] != '1')
+		{
+			if (up_down == 0)
+			{
+				x += player->dirx * player->movespeed;
+				y += player->diry * player->movespeed;
+			}
+			else
+			{
+				x -= player->dirx * player->movespeed;
+				y -= player->diry * player->movespeed;
+			}
+			i++;
+		}
+		else
+			return (0);
+	}
+	return (1);
+}
+
 void	up_down(int keycode, t_wolf *env)
 {
 	t_player	*player;
@@ -79,13 +96,8 @@ void	up_down(int keycode, t_wolf *env)
 	player = env->player;
 	if (keycode == 126 || keycode == 13)
 	{
-		if ((env->map->map[(int)((player->x + player->dirx * player->movespeed))]\
-			[(int)((player->y + player->diry * player->movespeed))] != '1') && \
-			(env->map->map[(int)((player->x + player->dirx * player->movespeed) + player->dirx * \
-			player->movespeed)][(int)((player->y + player->diry * player->movespeed) + player->diry * player->movespeed)] != '1') &&\
-			(env->map->map[(int)(((player->x + player->dirx * player->movespeed) + player->dirx * \
-			player->movespeed) + player->dirx * player->movespeed)][(int)(((player->y + player->diry * player->movespeed) +\
-			player->diry * player->movespeed) + player->diry * player->movespeed)] != '1'))
+		if (iswall(0, env, player->x + player->dirx * player->movespeed,\
+		player->y + player->diry * player->movespeed))
 		{
 			fill(env);
 			player->x += player->dirx * player->movespeed;
@@ -95,12 +107,8 @@ void	up_down(int keycode, t_wolf *env)
 	}
 	if (keycode == 125 || keycode == 1)
 	{
-		if ((env->map->map[(int)((player->x - player->dirx * player->movespeed))]\
-		[(int)((player->y - player->diry * player->movespeed))] != '1') &&\
-		(env->map->map[(int)((player->x - player->dirx * player->movespeed) - player->dirx * player->movespeed)]\
-		[(int)((player->y - player->diry * player->movespeed) - player->diry * player->movespeed)] != '1') &&\
-		(env->map->map[(int)(((player->x - player->dirx * player->movespeed) - player->dirx * player->movespeed) - player->dirx * player->movespeed)]\
-		[(int)(((player->y - player->diry * player->movespeed) - player->diry * player->movespeed) - player->diry * player->movespeed)] != '1'))
+		if (iswall(1, env, player->x - player->dirx * player->movespeed,\
+		player->y - player->diry * player->movespeed))
 		{
 			fill(env);
 			player->x -= player->dirx * player->movespeed;
@@ -112,7 +120,6 @@ void	up_down(int keycode, t_wolf *env)
 
 int		keyboard(int keycode, t_wolf *env)
 {
-	printf("%d\n", keycode);
 	left(keycode, env);
 	right(keycode, env);
 	up_down(keycode, env);
@@ -133,6 +140,7 @@ int		keyboard(int keycode, t_wolf *env)
 	if (keycode == 53)
 	{
 		system("pkill afplay");
+		free_struct(env);
 		exit(0);
 	}
 	return (0);
