@@ -6,7 +6,7 @@
 /*   By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/12 18:10:28 by fmaury            #+#    #+#             */
-/*   Updated: 2018/10/03 15:06:34 by fmaury           ###   ########.fr       */
+/*   Updated: 2018/10/04 09:39:15 by fmaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,30 +40,40 @@ int		find_player(char *line, t_map *map, t_player *player)
 	return (1);
 }
 
-int		parse(t_wolf *env, t_map *map, t_player *player)
+int		fill_map(t_wolf *env, t_map *map, t_player *player)
 {
 	int		ret;
 	char	*line;
 	int		i;
-	int		err;
+	int		plyr;
 
 	i = 0;
-	err = 0;
+	plyr = 0;
 	while ((ret = get_next_line(env->fd, &line)) > 0)
 	{
 		map->map = ft_strtab(map->map, line);
 		map->x = (int)ft_strlen(line);
-		if (find_player(line, map, player) == 1)
-			err = 1;
+		if (find_player(line, map, player))
+			plyr = 1;
 		map->y++;
+		free(line);
 	}
-	player->x += 0.5;
-	player->y += 0.5;
-	if (ret == -1 || !checker(map) || !err)
+	if (line)
+		free(line);
+	if (!plyr || ret == -1)
+		return (0);
+	return (1);
+}
+
+int		parse(t_wolf *env, t_map *map, t_player *player)
+{
+	if (!fill_map(env, map, player) || !checker(map))
 	{
 		ft_putstr("Map error\n");
 		return (0);
 	}
+	player->x += 0.5;
+	player->y += 0.5;
 	system("killall afplay 2&>/dev/null >/dev/null\n afplay \
 				./sound/sound.mp3&");
 	return (1);

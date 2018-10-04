@@ -6,7 +6,7 @@
 /*   By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/12 18:00:28 by fmaury            #+#    #+#             */
-/*   Updated: 2018/10/03 13:15:14 by fmaury           ###   ########.fr       */
+/*   Updated: 2018/10/04 10:38:08 by fmaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,11 @@ int	main(int ac, char **av)
 	if (ac == 2 && (env.fd = open(av[1], O_RDONLY)) > 0 &&
 	parse(&env, env.map, env.player))
 		wolf(&env);
-	free_struct(&env);
+	if (ac != 2)
+		ft_putstr("Usage: ./wolf3d [file]\n");
+	else if (env.fd <= 0)
+		ft_putstr("The file is invalid or does not exist\n");
+	else
+		free_struct(&env);
 	return (0);
 }
