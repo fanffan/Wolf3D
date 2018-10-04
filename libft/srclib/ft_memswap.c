@@ -6,13 +6,13 @@
 /*   By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/20 23:22:41 by fmaury            #+#    #+#             */
-/*   Updated: 2017/11/20 23:33:29 by fmaury           ###   ########.fr       */
+/*   Updated: 2018/10/04 10:29:05 by fmaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_memswap(void	**p1, void **p2)
+void	ft_memswap(void **p1, void **p2)
 {
 	void	*swap;
 
